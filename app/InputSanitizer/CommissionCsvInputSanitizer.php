@@ -11,6 +11,7 @@ class CommissionCsvInputSanitizer
 {
     private $file_path;
     public $total_raw_input = 0;
+    public $raw_input = [];
 
     public function setFile($file_path): CommissionCsvInputSanitizer
     {
@@ -23,9 +24,11 @@ class CommissionCsvInputSanitizer
 
     public function parse(): object
     {
+        if ($this->file_path === null) throw new \Exception("Oops!! this is not a file");
+
         $output = [];
+        $input_trace = 0;
         try {
-            $input_trace = 0;
             $file = fopen($this->file_path, "r");
             while(!feof($file))
             {
@@ -39,6 +42,7 @@ class CommissionCsvInputSanitizer
                     $user_id = $formatted_input["user_id"];
                     $output[$operation_type][$user_type][$user_id][] = $formatted_input;
                 }
+                $this->raw_input[$input_trace] = $raw_input;
                 $input_trace++;
             }
             fclose($file);

@@ -41,4 +41,5 @@ return [
     'currency_exchange' => [
         'access_key' => env('EXCHANGE_RATE_API_ACCESS_KEY'),
     ],
+    'japanese_yen' => 'JPY'
 ];

@@ -36,8 +36,15 @@ class DepositCommissionCalculator extends AbstractCommissionCalculator
     {
         foreach ($inputs as $deposit_transactions) {
             foreach ($deposit_transactions as $transaction) {
-                $commission = $transaction['amount'] * ($commission_rate/100);
-                $this->addOutput($transaction['input_trace'], $commission);
+                $commission = (float) $transaction['amount'] * ($commission_rate/100);
+                if ($transaction['currency'] === config('commission.japanese_yen')) {
+                    $commission = (int) ceil($commission);
+                }
+
+                $this->addOutput(
+                    isset($transaction['input_trace']) ? $transaction['input_trace'] : null,
+                    $commission
+                );
             }
         }
     }

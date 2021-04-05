@@ -14,9 +14,12 @@ abstract class AbstractCommissionCalculator implements CommissionCalculationInte
     abstract protected function calculateBusinessInputs();
     abstract protected function calculatePrivateInputs();
 
-    protected function addOutput($input_trace, $commission): void
+    protected function addOutput($input_trace = null, $output): void
     {
-        $this->output_trace[$input_trace] = $commission;
+        if ($input_trace === null)
+            $this->output_trace[] = $output;
+        else
+            $this->output_trace[$input_trace] = $output;
     }
 
     public function getOutput(): array
